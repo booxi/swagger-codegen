@@ -1,0 +1,26 @@
+class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^parentSchema}}extends \BooxiEntity{{/parentSchema}} {
+    {{#vars}}{{#isEnum}}
+    {{#allowableValues}}
+    {{#enumVars}}const {{datatypeWithEnum}}_{{name}} = {{{value}}};
+    {{/enumVars}}
+    {{/allowableValues}}
+    {{/isEnum}}{{/vars}}
+    {{#vars}}protected ${{name}};
+    {{/vars}}
+
+    static protected $FIELDS;
+    static protected function &getFields() {
+        if (is_null(self::$FIELDS)) {
+            self::$FIELDS = array(
+                {{#vars}}
+                '{{name}}' => {{{vendorExtensions.booxiEntityType}}},
+                {{/vars}}
+            );
+        }
+        return self::$FIELDS;
+    }
+    
+    public function __construct() {
+        parent::__construct("\{{modelPackage}}\{{classname}}", {{classname}}::getFields());
+    }
+}

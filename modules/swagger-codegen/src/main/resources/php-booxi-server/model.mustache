@@ -1,0 +1,20 @@
+<?php
+{{#models}}
+{{#model}}
+{{>partial_header}}
+
+namespace {{modelPackage}};
+
+require_once 'core/BooxiEntity.php';
+
+/**
+ * {{classname}}
+{{#description}}
+ * @description {{description}}
+{{/description}}
+{{#vars}}
+ * @property {{datatype}} ${{name}} {{{description}}}
+{{/vars}}
+ */
+{{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}
+{{/model}}{{/models}}
