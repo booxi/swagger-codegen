@@ -306,6 +306,9 @@ public class PhpBooxiServerCodegen extends AbstractPhpCodegen implements Codegen
             for (CodegenProperty var : model.vars) {
                 String booxiType = buildBooxiEntityType(var, allModels);
                 var.vendorExtensions.put("booxiEntityType", booxiType);
+
+                String booxiCommentType = buildBooxiCommentType(var, allModels);
+                var.vendorExtensions.put("booxiCommentType", booxiCommentType);
             }
         }
 
@@ -323,6 +326,8 @@ public class PhpBooxiServerCodegen extends AbstractPhpCodegen implements Codegen
         if (var.isString) {
             if (dataFormat.equals("decimal")) {
                 return "\\BooxiEntity::DECIMAL";
+            } else if (dataFormat.equals("language")) {
+                return "\\BooxiEntity::LANG";
             } else {
                 return "\\BooxiEntity::STRING";
             }
@@ -360,6 +365,39 @@ public class PhpBooxiServerCodegen extends AbstractPhpCodegen implements Codegen
             }
         }
         return "\\BooxiEntity::UNSUPPORTED_TYPE";
+    }
+
+    protected String buildBooxiCommentType(CodegenProperty var, Map<String, CodegenModel> allModels) {
+        StringBuilder docType = new StringBuilder();
+        if (var.isDateTime || var.isString || var.isInteger || var.isFloat || var.isDouble || var.isBoolean) {
+            docType.append(var.datatype);
+        } else if (var.isDate) {
+            docType.append("\\SimpleDate");
+        } else {
+            CodegenModel typeModel = allModels.get(var.baseType);
+            if (typeModel == null) {
+                // Embedded object
+                docType.append("\\").append(var.datatype);
+            } else if (typeModel.isEnum) {
+                if (typeModel.dataType.equals("string")) {
+                    docType.append("string");
+                } else if (typeModel.dataType.equals("int")) {
+                    docType.append("int");
+                } else {
+                    // Unexpected type
+                    docType.append("mixed");
+                }
+            } else {
+                // Normal object
+                docType.append("\\").append(var.datatype);
+            }
+        }
+
+        if (var.isListContainer) {
+            docType.append("[]");
+        }
+
+        return docType.toString();
     }
 
     @Override

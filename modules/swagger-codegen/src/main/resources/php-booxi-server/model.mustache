@@ -13,7 +13,7 @@ require_once 'core/BooxiEntity.php';
  * @description {{description}}
 {{/description}}
 {{#vars}}
- * @property {{datatype}} ${{name}} {{{description}}}
+ * @property {{{vendorExtensions.booxiCommentType}}} ${{name}} {{{description}}}
 {{/vars}}
  */
 {{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>model_generic}}{{/isEnum}}

@@ -1,12 +1,12 @@
 class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^parentSchema}}extends \BooxiEntity{{/parentSchema}} {
-    {{#vars}}{{#isEnum}}
-    {{#allowableValues}}
-    {{#enumVars}}const {{datatypeWithEnum}}_{{name}} = {{{value}}};
-    {{/enumVars}}
-    {{/allowableValues}}
-    {{/isEnum}}{{/vars}}
-    {{#vars}}protected ${{name}};
-    {{/vars}}
+{{#vars}}{{#isEnum}}
+{{#allowableValues}}
+{{#enumVars}}    const {{datatypeWithEnum}}_{{name}} = {{{value}}};
+{{/enumVars}}
+{{/allowableValues}}
+{{/isEnum}}{{/vars}}
+{{#vars}}    protected ${{name}};
+{{/vars}}
 
     static protected $FIELDS;
     static protected function &getFields() {
