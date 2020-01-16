@@ -22,5 +22,6 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
     
     public function __construct() {
         parent::__construct("\{{modelPackage}}\{{classname}}", {{classname}}::getFields());
+        $this->setJsonDateTimeFormat(DATETIME_FORMAT_ISO);
     }
 }
